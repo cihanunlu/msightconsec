@@ -245,4 +245,3 @@ def main():
                    
 
 config(theme="sketchy")  
-start_server(main, debug=True, port=8080)
