@@ -231,7 +231,7 @@ The interface of the tool allows for two output contexts for interpreter to inte
 The results of the research will be published soon.""", size='normal')
     
     put_row([
-        put_button('Contact', onclick=contactpopup, color="info", link_style=True),
+        put_button('HEHEContact', onclick=contactpopup, color="info", link_style=True),
         put_button('About', onclick=aboutpopup, color="info", link_style=True),
         put_button('Used APIs', onclick=apipopup, color="info", link_style=True),
         put_button('Research', onclick=researchpopup, color="info", link_style=True)
