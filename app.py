@@ -149,7 +149,7 @@ def main():
     put_html(f"""
     <div class="page-header">
         <div style="text-align: center">
-            <img src="https://gcdnb.pbrd.co/images/P1QGFXtqxT1B.jpg" alt="logo" />
+            <img src="https://iili.io/wgzx9a.jpg" alt="logo" />
             <p class="lead">BETA</p>
         </div>
       </div>
@@ -231,7 +231,7 @@ The interface of the tool allows for two output contexts for interpreter to inte
 The results of the research will be published soon.""", size='normal')
     
     put_row([
-        put_button('HEHEContact', onclick=contactpopup, color="info", link_style=True),
+        put_button('Contact', onclick=contactpopup, color="info", link_style=True),
         put_button('About', onclick=aboutpopup, color="info", link_style=True),
         put_button('Used APIs', onclick=apipopup, color="info", link_style=True),
         put_button('Research', onclick=researchpopup, color="info", link_style=True)
