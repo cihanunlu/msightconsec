@@ -1,6 +1,3 @@
-from cProfile import run
-from pickle import TRUE
-from turtle import width
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
 import time
