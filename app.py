@@ -1,7 +1,6 @@
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
 import time
-import azure.cognitiveservices.speech as speechsdk
 from pywebio.output import put_text, put_scrollable, put_column, put_button, put_info, put_warning, put_markdown, put_success, put_html, put_processbar, toast, put_scope, put_buttons, put_row, put_loading, put_link, popup, clear, put_tabs, put_buttons, scroll_to
 from pywebio import start_server, config
 import pywebio.platform
@@ -10,34 +9,6 @@ from pywebio.input import *
 speech_key, service_region = "fb5bdd0e6eda4c919b6cd3da83360a8f", "westeurope"
 
 def speech_recognize_continuous_from_file():
-    
-    
-    """performs continuous speech recognition with input from an audio file"""
-    # <SpeechContinuousRecognitionWithFile>
-    filepath="/Users/cihan/Desktop/marufssss/2oct_10_phd_showcase (360p).wav"
-    transcriptlanguage = "tr-TR"
-    targetlanguage = ('en',)
-    translation_config = speechsdk.translation.SpeechTranslationConfig(
-        subscription=speech_key, region=service_region,
-        speech_recognition_language=transcriptlanguage,
-        target_languages=targetlanguage)
-    audio_config = speechsdk.audio.AudioConfig(use_default_microphone=True)
-    # Creates a translation recognizer using and audio file as input.
-    speech_recognizer = speechsdk.translation.TranslationRecognizer(
-        translation_config=translation_config, audio_config=audio_config)
-    
-
-    done = False
-
-    def stop_cb(evt):
-        """callback that stops continuous recognition upon receiving an event `evt`"""
-        print('CLOSING on {}'.format(evt))
-        speech_recognizer.stop_continuous_recognition()
-        nonlocal done
-        done = True
-    
-        
-        
 
     def sample_recognize_entities():
         endpoint = "https://metinozetlemedeneme.cognitiveservices.azure.com/"
@@ -96,7 +67,6 @@ def speech_recognize_continuous_from_file():
             """
         run_js(js)
         time.sleep(1)
-        speech_recognizer.stop_continuous_recognition()
 
 
 
@@ -104,38 +74,8 @@ def speech_recognize_continuous_from_file():
     entitybatch=[]
     transcriptresults = []
     translationresults= []
-    def handle_final_result(evt):
-        transcriptresults.append(evt.result.text)
-        translationresults.append(evt.result.translations['en'])
 
-    speech_recognizer.recognized.connect(handle_final_result)
-    # Connect callbacks to the events fired by the speech recognizer
-    speech_recognizer.recognizing.connect(lambda evt: print('RECOGNIZING: {}'.format(evt)))
-    speech_recognizer.recognized.connect(lambda evt: print('RECOGNIZED: {}'.format(evt)))
-    speech_recognizer.session_started.connect(lambda evt: print('SESSION STARTED: {}'.format(evt)))
-    speech_recognizer.session_stopped.connect(lambda evt: print('SESSION STOPPED {}'.format(evt)))
-    speech_recognizer.canceled.connect(lambda evt: print('CANCELED {}'.format(evt)))
-    # stop continuous recognition on either session stopped or canceled events
-    speech_recognizer.session_stopped.connect(stop_cb)
-    speech_recognizer.canceled.connect(stop_cb)
-    
 
-    put_button('Stop Recognition', onclick=sample_recognize_entities, scope='buttonpart', color="danger", outline=False).onclick(lambda: [clear(scope="subbuttons"), toast("Recognition Stopped!", position='center', color='#4eccd9', duration=2)])
-    
-
-    
-    
-    # Start continuous speech recognition
-    speech_recognizer.start_continuous_recognition()
-    toast("Recognition Started!", position='right', color='#4eccd9', duration=2)
-    while not done:
-        time.sleep(0.5)
-
-   
-    
- 
-    
-      
 
                     
 def main():
@@ -162,15 +102,11 @@ def main():
  
 
 
-    put_html("""<iframe src="https://storage.googleapis.com/wide-empire-351421.appspot.com/sightterp.html" allow="microphone *" 
+    put_html("""<iframe src="https://www.translation-1.com/wp-content/uploads/sightconsecscripts/speech/index.html" allow="microphone *" 
     style="border: none; width: 100%; height: 400px"></iframe>""")
     
-    def clearall():
-        clear(scope="translationpage")  
-        clear(scope="transcriptpage")
-        clear(scope="buttonpart")
-        clear(scope="entitysection")
-        clear(scope="entitysection")
+
+
 
     def clearcanvas():
         clear(scope='canvaspart')
@@ -232,4 +168,4 @@ https://azure.microsoft.com/tr-tr/services/cognitive-services/text-analytics/"""
 config(theme="default", title="SightTerp - ASR-enhanced CAI Tool", css_file="https://www.translation-1.com/wp-content/uploads/sightconsecscripts/2/highlight.css")
 # pywebio.platform.flask.start_server(main, debug=True, port=8080)
 if __name__ == '__main__':
-    pywebio.platform.tornado_http.start_server(main, port=8080, debug=True)
+    pywebio.platform.tornado_http.start_server(main, debug=True)
