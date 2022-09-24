@@ -162,8 +162,8 @@ def main():
  
 
 
-    put_html("""<iframe src="https://storage.googleapis.com/wide-empire-351421.appspot.com/sightterp.html" 
-    style="border: none; width: 100%; height: 400px"></iframe>""").style('width:100%')
+    put_html("""<iframe src="https://storage.googleapis.com/wide-empire-351421.appspot.com/sightterp.html" allow="microphone *" 
+    style="border: none; width: 100%; height: 400px"></iframe>""")
     
     def clearall():
         clear(scope="translationpage")  
