@@ -15,19 +15,8 @@ from pywebio.input import *
 def main():
     
     set_env(output_max_width="1000px")
-    def login(data):
-        if data['username'] == 'sightterp' and data['password'] == 'sightterp':
-            return
-        else:
-            return ('password', 'Username or password is wrong')
-            
-    data = input_group("Sight-Terp Log-In",[
-        input('Username', name='username', placeholder='Subscription Username', required=True),
-        input('Password', name='password', type=PASSWORD, required=True)
-    ], validate=login)
     
 
-    toast('Authorization Successful!', color='success')
     # </Main layout>
     put_html(f"""
     <div class="page-header">
@@ -37,8 +26,31 @@ def main():
         </div>
       </div>
     """)
+    hide_footer_css = """
+    <style>
+        .footer {
+            display: none;
+        }
+        .custom-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.8em;
+            padding: 1em 0;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            z-index: 999;
+        }
+    </style>
+    <div class="custom-footer">
+       <strong> Developed by <a href='https://www.linkedin.com/in/cihan-%C3%BCnl%C3%BC-a82448109' target="_blank">Cihan Ünlü</a></strong>
+    </div>
+    """
+    put_html(hide_footer_css)
 
-    
+
     put_info(put_html("<p>Press 'Start Recognition' to initiate speech translation. Allow your browser to use your microphone input.</p>").style("font-family: Poppins;white-space: pre-line; font-size: 14px; text-align: center"), closable=True)
 
 
@@ -95,16 +107,23 @@ def main():
     """)
 
 
-    put_success("Developed by Cihan Ünlü - All rights reserved.").style("font-family: Poppins; font-size: 13px; margin-top: 15px; text-align: center")
+    
 
     
     
-    put_tabs([{'title': 'About', 'content': """Sight-Terp is a prototype of a web-based ASR-supported CAI tool designed for consecutive interpreting modality. The tool initates continuous speech recognition which transcribes the source speech and simultaneously generates machine translated output of speech segments in vertically enumerated form.
+    put_tabs([{'title': 'About', 'content': """Sight-Terp is a web-based ASR-supported CAI tool designed for consecutive interpreting modality. The tool initates continuous speech recognition which transcribes the source speech and simultaneously generates machine translated output of speech segments in a vertically enumerated form and layout.
 
 Sight-Terp is non-commercial product used for educational and/or reserach purposes only.
         
-The interface of the tool allows for two output contexts: the source transcription and the machine translation. The "Open Notepad" button opens the digital notepad which is implemented to allow the user carry out the note-taking practice using a stylus. The tool also incorporates Named Entity Recognition (NER), an out-sourced AI-based predictive model which identifies the named entities in the source speech and higlights them on the source text upon retrieval of the source transcript."""},
-{'title': 'How to use', 'content': """Press "Start Recognition" button to start speech recognition. When browser wants to use the system microphone, click "Allow". The speech recognition model will listen to the audio input from your default microphone and simultaneously display the results on the adjacent boxes.  To stop the recognition, press "Stop Recognition.
+The interface of the tool shows two automatically-generated reference texts: (1) the source transcription through ASR and (2) the machine translation through Speech Translation.
+
+The "Open Notepad" button opens the digital notepad. It is an optional third-party digital note-taking application. This application offers features like scratch-out erasing and the ability to draw lines by underlining or circling text. Designed to emulate the traditional pen-and-paper experience in consecutive interpreting, the digital notepad seeks to provide a familiar and comfortable environment for interpreters as they navigate the digital landscape.
+
+The tool also incorporates Named Entity Recognition (NER), an out-sourced AI-based predictive model which identifies the named entities in the source speech and higlights them on the source text upon retrieval of the source transcript. As the recognition process unfolds, named entities within the text are dynamically highlighted in real-time, courtesy of named entity recognition technology. This feature allows interpreters to quickly identify and focus on key information as it appears throughout the text."""},
+{'title': 'How to use', 'content': """To begin, click the "Start Recognition" button to initiate the speech translation session. When browser wants to use the system microphone, click "Allow".  As the speaker speaks, the ASR technology transcribes your words and generates machine-translated output, displayed in two adjacent text boxes for both source and target languages.
+As the recognition runs, named entities in the text will be automatically highlighted in real-time to help you identify critical information.
+If you prefer to take notes, utilize the optional digital notepad feature located at the bottom of the interface.
+After the speech is completed, you can click on "Stop Recognition" and scroll up to see the translations/transcriptions and begin interpreting.
 
 For faster and reliable results, use the application in a silent enviroment and make sure the internet connection is strong."""},
     {'title': 'Research', 'content': """Sight-Terp is developed for an on-going MA Thesis at Hacettepe University by Cihan Ünlü.
@@ -114,12 +133,11 @@ for STT: Microsoft Azure Cognitive Services Speech Translation API
 https://azure.microsoft.com/en-us/services/cognitive-services/speech-translation/
 for NER: Microsoft Text Analytics API
 https://azure.microsoft.com/tr-tr/services/cognitive-services/text-analytics/"""},
-    {'title': 'Contact', 'content': 'cihan.unlu[at]yeniyuzyil.edu.tr'}]).style('font-family: Poppins; padding-top: 5px; padding-right: 20px; padding-bottom: 0px; padding-left: 20px; height:%100 ;width: %100; border-radius: 20px; font-size: 14px; box-sizing: none; border-color: #4fccda; position: relative; text-align: justify')
-
+    {'title': 'Contact', 'content': 'cihan.unlu[at]yeniyuzyil.edu.tr'}]).style('font-family: Poppins; padding-top: 5px; padding-right: 20px; padding-bottom: 0px; padding-left: 20px; height:%100 ;width: %100; border-radius: 20px; font-size: 12px; box-sizing: none; border-color: #4fccda; position: relative; text-align: justify')
                      
 config(theme="default", title="SightTerp - ASR-enhanced CAI Tool",  js_file="https://code.jquery.com/jquery-1.10.2.js",css_file=["https://fonts.googleapis.com/css?family=Poppins","https://translation-1.com/wp-content/uploads/sightconsecscripts/speech/resizer.css"])
 # pywebio.platform.flask.start_server(main, debug=True, port=8080)
 if __name__ == '__main__':
-    pywebio.platform.tornado_http.start_server(main, debug=True, session_expire_seconds=3600, session_cleanup_interval=3600)
+    pywebio.platform.tornado_http.start_server(main, debug=True, session_expire_seconds=1500, session_cleanup_interval=360, allowed_origins="*")
 
 
